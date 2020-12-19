@@ -11,7 +11,16 @@ dist/
 *.class
 
 # Compiled Python bytecode
+__pycache__/
 *.py[cod]
+*$py.class
+
+# Django stuff
+db.sqlite3
+
+# Secrets
+secrets.json
+.env
 
 # Log files
 *.log

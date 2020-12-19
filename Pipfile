@@ -5,8 +5,12 @@ name = "pypi"
 
 [packages]
 django = "==3.1.4"
+environs = "*"
 
 [dev-packages]
+django-extensions = "*"
+django-debug-toolbar = "*"
+rich = "*"
 
 [requires]
 python_version = "3.8"
