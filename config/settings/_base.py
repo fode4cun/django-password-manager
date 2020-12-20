@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Internal apps
+    'pwdgen.apps.PwdgenConfig',
 ]
 
 MIDDLEWARE = [
