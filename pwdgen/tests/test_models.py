@@ -1,6 +1,6 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils.text import slugify
-from django.contrib.auth.models import User
 
 from pwdgen.models import Category
 
