@@ -12,6 +12,7 @@ psycopg2-binary = "*"
 django-extensions = "*"
 django-debug-toolbar = "*"
 rich = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.8"
