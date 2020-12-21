@@ -14,7 +14,7 @@ class Category(CommonFieldsBase, CreationModificationDateBase):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name, allow_unicode=True)
-        super().save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
 
 class Repository(CommonFieldsBase, CreationModificationDateBase):
