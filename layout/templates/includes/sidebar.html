@@ -1,0 +1,44 @@
+{% load static %}
+<div class="sidebar" data-color="purple" data-background-color="white" data-image="{% static 'assets/img/sidebar-1.jpg' %}">
+    <div class="logo">
+        <a rel="noopener noreferrer" href="{% url 'pwdgen:home' %}" class="simple-text logo-normal">
+            Future Password
+        </a>
+    </div>
+
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item {% if 'index' == segment %} active {% endif %}">
+                <a class="nav-link" href="/">
+                    <i class="material-icons">dashboard</i>
+                    <p>Categories</p>
+                </a>
+            </li>
+            <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
+                <a class="nav-link" href="/page-user.html">
+                    <i class="material-icons">person</i>
+                    <p>User Profile</p>
+                </a>
+            </li>
+
+            <li class="nav-item ">
+                <a class="nav-link" href="">
+                    <i class="material-icons">power_settings_new</i>
+                    <p>Logout</p>
+                </a>
+            </li>
+
+            {% else %}
+            <li class="nav-item ">
+                <a class="nav-link" href="">
+                    <i class="material-icons">login</i>
+                    <p>Sign In</p>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+
+
+</div>
