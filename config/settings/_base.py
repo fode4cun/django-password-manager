@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # External packages
+    'crispy_forms',
     # Internal apps
     'pwdgen.apps.PwdgenConfig',
 ]
@@ -120,3 +122,4 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
