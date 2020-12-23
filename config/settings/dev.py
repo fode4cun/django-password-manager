@@ -29,6 +29,8 @@ DATABASES = {
     }
 }
 
+CRISPY_FAIL_SILENTLY = False
+
 # Logging with python rich package
 LOGGING = {
     "version": 1,
