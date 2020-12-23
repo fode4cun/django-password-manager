@@ -1,0 +1,130 @@
+{% extends 'layout/base.html' %}
+
+{% load crispy_forms_tags crispy_forms_field %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-10 col-md-12">
+    <div class="card">
+      <div class="card-header card-header-info card-header-tabs">
+        <div class="nav-tabs-navigation">
+          <div class="nav-tabs-wrapper">
+            <ul class="nav nav-tabs" data-tabs="tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#profile" data-toggle="tab">
+                  <i class="material-icons">security</i> Generator
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="#messages" data-toggle="tab">
+                  <i class="material-icons">dashboard</i> Category
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#settings" data-toggle="tab">
+                  <i class="material-icons">title</i> Name
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <form method="post" accept-charset="utf-8">
+        <div class="card-body">
+          <div class="tab-content">
+            <div class="tab-pane active" id="profile">
+              <div class="row my-3 align-items-center">
+                <div class="col-md-8 d-flex flex-column justify-content-around">
+                  {% crispy form %}
+                </div>
+
+                <div class="col-md-4">
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              {% crispy_field form.lowercase %}
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>Include lowercase letters.</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              {% crispy_field form.uppercase %}
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>Include uppercase letters.</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              {% crispy_field form.punctuation %}
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>Include punctuation.</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              {% crispy_field form.numbers %}
+                              <span class="form-check-sign">
+                                <span class="check"></span>
+                              </span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>Include numbers.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="row">
+                <input type="submit" id="generate" class="btn btn-info btn-lg btn-block mx-4" value="Generate" />
+              </div>
+            </div>
+
+            {% if user.is_authenticated %}
+            <div class="tab-pane" id="messages">
+              <!-- TODO: Add category choice field -->
+            </div>
+
+            <div class="tab-pane" id="settings">
+              <!-- TODO: Add name input -->
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
