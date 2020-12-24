@@ -125,6 +125,8 @@ STATICFILES_FINDERS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
 LOGIN_REDIRECT_URL = 'pwdgen:home'
 LOGOUT_REDIRECT_URL = 'pwdgen:home'
 
