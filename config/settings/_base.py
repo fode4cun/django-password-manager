@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     # Internal apps
     'pwdgen.apps.PwdgenConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,7 @@ STATICFILES_FINDERS = [
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'pwdgen:home'
+LOGOUT_REDIRECT_URL = 'pwdgen:home'
+

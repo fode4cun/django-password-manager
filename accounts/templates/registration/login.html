@@ -2,32 +2,17 @@
 
 {% block title %} Login {% endblock %}
 
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
-
 {% block content %}
 
   <div class="row">
     <div class="col-md-5">
       <div class="card">
-        <div class="card-header card-header-primary">
-          <h4 class="card-title">
-            Login
-          </h4>
+        <div class="card-header card-header-info">
+          <h4 class="card-title">Login</h4>
         </div>
         <div class="card-body">
 
-          <h6 class="card-category">
-              {% if msg %}
-                <span class="text-danger">{{ msg }}</span>
-              {% else %}
-                  Use default credentials: test / ApS12_ZZs8
-              {% endif %}
-          </h6>
-
-          <br />
-
-          <form role="form" method="post" action="">
+          <form role="form" method="post">
 
             {% csrf_token %}
 
@@ -53,7 +38,7 @@
 
             <br />
 
-            <button type="submit" name="login" class="btn btn-primary pull-left">Login</button>
+            <button type="submit" name="login" class="btn btn-info pull-left">Login</button>
 
             &nbsp; &nbsp;
             <span class="pull-right">
@@ -69,6 +54,3 @@
   </div>
 
 {% endblock content %}
-
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
