@@ -14,7 +14,7 @@ class CategoryTest(TestCase):
 
     def test_category_creation(self):
         category = self.category
-        self.assertTrue(isinstance(category, Category))
+        self.assertIsInstance(category, Category)
         self.assertEqual(category.slug, slugify(category.name))
         self.assertEqual(category.__str__(), category.name)
 

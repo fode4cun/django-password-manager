@@ -128,3 +128,18 @@
   </div>
 </div>
 {% endblock content %}
+
+{% block js %}
+<script charset="utf-8">
+  (function ($) {
+    $('form').on('submit', function (event) {
+      var $form = $(this);
+      var $checkbox = $form.find('.checkboxinput:checkbox:checked');
+
+      if ($checkbox.length === 0) {
+        event.preventDefault();
+      }
+    });
+  })(jQuery);
+</script>
+{% endblock js %}
