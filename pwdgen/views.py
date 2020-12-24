@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 
 from pwdgen.forms import GeneratorForm
+from pwdgen.generator import Generator
 
 
 class HomeView(TemplateView):
@@ -8,14 +9,18 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = GeneratorForm(
-            initial={
-                'lowercase': ['on'],
-                'uppercase': ['on'],
-                'punctuation': ['on'],
-                'numbers': ['on'],
-            }
-        )
+        data = {
+            'length_range': '12',
+            'lowercase': ['on'],
+            'uppercase': ['on'],
+            'punctuation': ['on'],
+            'numbers': ['on'],
+        }
+
+        password = Generator(data).gen()
+        data.update({'password': password})
+
+        context['form'] = GeneratorForm(initial=data)
 
         return context
 
