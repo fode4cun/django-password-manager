@@ -140,6 +140,12 @@
         event.preventDefault();
       }
     });
+
+    var $password = $('#id_password');
+    $password.on('click', function(event) {
+      $password.select();
+      document.execCommand("copy");
+    });
   })(jQuery);
 </script>
 {% endblock js %}
