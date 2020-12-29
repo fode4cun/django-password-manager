@@ -1,14 +1,16 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils.text import slugify
 
 from pwdgen.models import Category
 
+User = get_user_model()
+
 
 class CategoryTest(TestCase):
     def setUp(self):
         self.user = User.objects.create(
-            username='jacob', email='jacob@gmail.com', password='top_secret')
+            email='jacob@gmail.com', password='top_secret')
         self.category = Category.objects.create(
             owner=self.user, name='Web Pages')
 
