@@ -1,0 +1,13 @@
+{
+    "reportGeneralTypeIssues": "none",
+    "executionEnvironments": [
+        {
+            "root": "./",
+            "venv": "futurepassword-8Vim4XCz",
+            "extraPaths": [
+                "/home/fode4cun/.pyenv/versions/3.8.5/lib/python3.8/site-packages/"
+            ]
+        }
+    ]
+}
+
