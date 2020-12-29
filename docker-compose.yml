@@ -11,7 +11,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ../pg_data:/var/lib/postgresql/data
+      - ./pg_data:/var/lib/postgresql/data
     restart: always
 
   web:
@@ -26,7 +26,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./:/futurepassword
+      - ./:/pwdproj
     depends_on:
       - postgres
     restart: always

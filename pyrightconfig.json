@@ -1,12 +1,12 @@
 {
+
+    "python.pythonPath": "/home/fode4cun/.local/share/virtualenvs/futurepassword-8Vim4XCz/bin/python3.8",
+    "python.venvPath": "/home/fode4cun/.local/share/virtualenvs/",
     "reportGeneralTypeIssues": "none",
     "executionEnvironments": [
         {
             "root": "./",
-            "venv": "futurepassword-8Vim4XCz",
-            "extraPaths": [
-                "/home/fode4cun/.pyenv/versions/3.8.5/lib/python3.8/site-packages/"
-            ]
+            "venv": "futurepassword-8Vim4XCz"
         }
     ]
 }

@@ -9,10 +9,10 @@ ENV PYTHONUNBUFFERED 1
 ENV COLUMNS 164
 
 # Set work directory
-WORKDIR /futurepassword
+WORKDIR /pwdproj
 
 # Copy Django project files
-COPY . /futurepassword
+COPY . /pwdproj
 
 # Install dependencies
 RUN pip install --upgrade pip
