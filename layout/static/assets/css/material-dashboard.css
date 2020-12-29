@@ -212,6 +212,20 @@ th {
   text-align: inherit;
 }
 
+#div_id_length_range label {
+    position: relative;
+}
+
+#id_length_range {
+    -webkit-appearance: none;
+    height: 10px;
+    border-radius: 5px;
+    background: #d7dcdf;
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+
 label {
   display: inline-block;
   margin-bottom: .5rem;
