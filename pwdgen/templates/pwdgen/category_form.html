@@ -1,0 +1,90 @@
+{% extends 'layout/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title">Add Category</h4>
+                    <p class="card-category">Complete new category</p>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input type="submit" class="btn btn-info pull-right" value="Save" />
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button trigger modal -->
+        <button id="modaltrigger" type="button" class="btn btn-info col-md-5" data-toggle="modal" data-target="#exampleModal">
+            Select Image
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Type and press enter for search</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="search-bar" class="textinput textInput form-control mb-4">
+                        <div class="row justify-content-center"></div>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block js %}
+<script>
+(function ($) {
+    function search_icon(word)
+    {
+        var url = '/search-icon/?word=' + word;
+
+        fetch(url).then(function (data) {
+            if (data && data.json) {
+                return data.json();
+            }
+
+            return [];
+        }).then(function (items) {
+            let arr = items.results;
+
+            for (let i=0; i < arr.length; i++) {
+                var $img = $('<img class="m-3" width="64" height="64">');
+                $img.attr('src', arr[i]);
+                $('.modal-body .row').append($img);
+            }
+
+            var url;
+
+            $('.modal-body img').on("click", function(index) {
+                url = this.src;
+                $('#id_url').val(url);
+                $('#exampleModal').modal('toggle');
+                $('#modaltrigger').text('Image already selected');
+            });
+
+        });
+    }
+
+    $('#search-bar').on("keypress", function(e){
+        if(e.which === 13 && e.target.value != ''){
+            search_icon(e.target.value);
+        }
+    });
+})(jQuery);
+</script>
+{% endblock js %}

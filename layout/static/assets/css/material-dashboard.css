@@ -420,6 +420,10 @@ template {
   }
 }
 
+.modal-body img {
+  cursor: pointer;
+}
+
 *,
 *::before,
 *::after {
