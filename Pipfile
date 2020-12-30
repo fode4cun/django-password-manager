@@ -8,6 +8,8 @@ django = "==3.1.4"
 environs = "*"
 psycopg2-binary = "*"
 django-crispy-forms = "*"
+requests = "*"
+pillow = "*"
 
 [dev-packages]
 django-extensions = "*"
