@@ -1,24 +1,43 @@
+from pathlib import PurePath
+from uuid import uuid4
+
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.text import slugify
+from django.utils.timezone import now as timezone_now
 from django.utils.translation import gettext_lazy as _
 
 from layout.models import CommonFieldsBase, CreationModificationDateBase
 
 
+def upload_to(instance, filename):
+    now = timezone_now()
+    extension = PurePath(filename).suffix.lower()
+    return f"category/{now:%Y/%m}/{instance.uuid}{extension}"
+
+
 class Category(CommonFieldsBase, CreationModificationDateBase):
+    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    uuid = models.UUIDField(default=uuid4, editable=False, unique=True)
     slug = models.CharField(max_length=128)
+    image = models.ImageField(upload_to=upload_to)
 
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
         ordering = ['-created']
+        unique_together = [['owner', 'name']]
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name, allow_unicode=True)
         return super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        self.image.storage.delete(self.image.name)
+        return super().delete(*args, **kwargs)
 
-class Repository(CommonFieldsBase, CreationModificationDateBase):
+
+class Password(CommonFieldsBase, CreationModificationDateBase):
     category = models.ForeignKey(
         'Category',
         verbose_name=_('Category'),
@@ -28,7 +47,7 @@ class Repository(CommonFieldsBase, CreationModificationDateBase):
     password = models.CharField(_('Password'), max_length=255)
 
     class Meta:
-        verbose_name = _('Repository')
-        verbose_name_plural = ('Repositories')
+        verbose_name = _('Password')
+        verbose_name_plural = ('Passwords')
         ordering = ['-created']
 

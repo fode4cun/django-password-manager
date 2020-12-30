@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -10,12 +9,10 @@ class CommonFieldsBase(models.Model):
     :name: - required / unique.
     """
 
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     name = models.CharField(_('Name'), max_length=64)
 
     class Meta:
         abstract = True
-        unique_together = [['owner', 'name']]
 
     def __str__(self):
         return self.name
