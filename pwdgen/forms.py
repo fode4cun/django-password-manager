@@ -67,10 +67,7 @@ class CategoryForm(forms.ModelForm):
         fields = ('name', 'url')
 
     def clean(self):
-        cleaned_data = super().clean()
-        url = cleaned_data["url"]
-        if not self.instance.pk and not url:
-            raise forms.ValidationError(_("Please choose an image."), code='invalid')
+        return super().clean()
 
     def save(self, request, commit=True):
         instance = super().save(commit=False)
