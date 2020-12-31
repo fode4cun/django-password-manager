@@ -82,6 +82,7 @@
 
     $('#search-bar').on("keypress", function(e){
         if(e.which === 13 && e.target.value != ''){
+            $('.modal-body img').remove();
             search_icon(e.target.value);
         }
     });
