@@ -1,3 +1,5 @@
+from pathlib import PurePath
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Layout
 from django import forms
@@ -7,6 +9,13 @@ from PIL import Image
 from pwdgen.generator import Generator
 from pwdgen.models import Category
 from pwdgen.utils import pil_to_django, retrieve_image
+
+EXTENSIONS = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+]
 
 
 class GeneratorForm(forms.Form):
@@ -69,18 +78,20 @@ class CategoryForm(forms.ModelForm):
     def clean(self):
         return super().clean()
 
-    def save(self, request, commit=True):
+    def save(self, commit=True):
         instance = super().save(commit=False)
         name = self.cleaned_data['name']
         url = self.cleaned_data['url']
 
-        file_stream = retrieve_image(url)
-        pil_image = Image.open(file_stream)
-        file_obj = pil_to_django(pil_image)
-        instance.image.save(url, file_obj, save=False)
+        if url.startswith('https') and any([url.endswith(e) for e in EXTENSIONS]):
+            filename = PurePath(url).name
+            file_stream = retrieve_image(url)
+            pil_image = Image.open(file_stream)
+            file_obj = pil_to_django(pil_image)
+            instance.image.save(filename, file_obj, save=False)
 
         if commit:
-            instance.owner = request.user
+            instance.owner = self.request.user
             instance.name = name
             instance.save()
         return instance

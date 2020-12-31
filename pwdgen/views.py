@@ -1,9 +1,11 @@
+from django.forms.models import model_to_dict
 from django.http.response import JsonResponse
-from django.urls import reverse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_GET
 from django.views.generic import ListView, TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import CreateView, UpdateView
 
 from pwdgen.forms import CategoryForm, GeneratorForm
 from pwdgen.generator import Generator
@@ -45,17 +47,30 @@ class HomeView(TemplateView):
 class CategoryListView(ListView):
     model = Category
 
-
-class CategoryFormView(FormView):
+class CategoryCreateUpdateMixin:
+    model = Category
     form_class = CategoryForm
-    template_name = 'pwdgen/category_form.html'
+    success_url = reverse_lazy("pwdgen:category-list")
 
-    def get_success_url(self):
-        return reverse("pwdgen:category-list")
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.request = self.request
+        return form
 
     def form_valid(self, form):
-        category = form.save(self.request)
+        form.save()
         return super().form_valid(form)
+
+
+class CategoryCreateView(CategoryCreateUpdateMixin, CreateView):
+    pass
+
+
+class CategoryEditView(CategoryCreateUpdateMixin, UpdateView):
+    def get_initial(self):
+        initial = super().get_initial()
+        initial.update({'url': 'Image already exists'})
+        return initial
 
 
 @require_GET
