@@ -1,6 +1,3 @@
-from pathlib import PurePath
-from uuid import uuid4
-
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.text import slugify
@@ -12,13 +9,11 @@ from layout.models import CommonFieldsBase, CreationModificationDateBase
 
 def upload_to(instance, filename):
     now = timezone_now()
-    extension = PurePath(filename).suffix.lower()
-    return f"category/{now:%Y/%m}/{instance.uuid}{extension}"
+    return f"category/{now:%Y/%m}/{filename}"
 
 
 class Category(CommonFieldsBase, CreationModificationDateBase):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    uuid = models.UUIDField(default=uuid4, editable=False, unique=True)
     slug = models.CharField(max_length=128)
     image = models.ImageField(upload_to=upload_to)
 

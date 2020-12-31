@@ -12,7 +12,6 @@ class CategoryAdmin(admin.ModelAdmin):
         'created',
         'modified',
         'owner',
-        'uuid',
         'slug',
         'image',
     )
