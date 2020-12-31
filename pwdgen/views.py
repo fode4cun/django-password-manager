@@ -1,6 +1,5 @@
-from django.forms.models import model_to_dict
 from django.http.response import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_GET
@@ -72,6 +71,14 @@ class CategoryEditView(CategoryCreateUpdateMixin, UpdateView):
         initial.update({'url': 'Image already exists'})
         return initial
 
+
+class CategoryDeleteView(TemplateView):
+    template_name = 'pwdgen/confirm.html'
+
+    def post(self, request, slug):
+        category = get_object_or_404(Category, slug=slug, owner=request.user)
+        category.delete()
+        return redirect(reverse_lazy("pwdgen:category-list"))
 
 @require_GET
 def search_icon(request):

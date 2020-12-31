@@ -14,9 +14,15 @@
                     <h3 class="card-title">{{ obj.name }}</h3>
                 </div>
                 <div class="card-footer">
-                    <div class="stats">
-                        <i class="material-icons">settings</i>
-                        <a href="{% url 'pwdgen:category-edit' obj.slug %}">Edit {{ obj.name }}</a>
+                    <div class="stats justify-content-between w-100">
+                        <div class="edit">
+                            <i class="material-icons">settings</i>
+                            <a href="{% url 'pwdgen:category-edit' obj.slug %}">Edit</a>
+                        </div>
+                        <div class="remove">
+                            <a href="{% url 'pwdgen:category-delete' obj.slug %}">Remove section</a>
+                            <i class="material-icons text-danger">delete_forever</i>
+                        </div>
                     </div>
                 </div>
             </div>
