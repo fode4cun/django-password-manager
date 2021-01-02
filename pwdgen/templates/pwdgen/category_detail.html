@@ -26,7 +26,7 @@
                                 <td class="d-none"><code>{{ pwd.password }}</code></td>
                                 <td class="text-right">
                                     <i id="copy" class="material-icons mx-2 text-info" style="cursor:pointer" data-toggle="popover" data-content="Copied successfully">content_copy</i>
-                                    <a href="" class="material-icons mx-2 text-info" style="cursor:pointer">clear</a>
+                                    <a href="{% url 'pwdgen:password-delete' category.slug pwd.slug %}" class="material-icons mx-2 text-info" style="cursor:pointer">clear</a>
                                 </td>
 
                             </tr>

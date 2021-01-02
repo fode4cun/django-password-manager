@@ -60,6 +60,16 @@ class PasswordCreateView(CreateView):
         return super().form_valid(form)
 
 
+class PasswordDeleteView(TemplateView):
+    template_name = 'pwdgen/confirm.html'
+
+    def post(self, request, category_slug, pwd_slug):
+        category = get_object_or_404(Category, slug=category_slug, owner=request.user)
+        password = get_object_or_404(Password, category=category, slug=pwd_slug)
+        password.delete()
+        return redirect(reverse_lazy("pwdgen:category-list"))
+
+
 class CategoryListView(ListView):
     model = Category
 
