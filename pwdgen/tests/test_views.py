@@ -27,7 +27,7 @@ class HomeViewTest(TestCase):
         }
 
         response = self.client.post(self.url, data)
-        password = response.context['form']['password'].value()
+        password = response.context['form']['pwd'].value()
         length = int(data['length_range'])
 
         self.assertRegex(password, r'(?=.*[a-z])')
