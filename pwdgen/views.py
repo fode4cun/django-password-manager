@@ -1,13 +1,13 @@
-from django.http.response import JsonResponse
+from django.http.response import HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 
-from pwdgen.forms import CategoryForm, GeneratorForm
+from pwdgen.forms import CategoryForm, GeneratorForm, PasswordForm
 from pwdgen.generator import Generator
-from pwdgen.models import Category
+from pwdgen.models import Category, Password
 from pwdgen.utils import get_icons
 
 
@@ -25,9 +25,10 @@ class HomeView(TemplateView):
         }
 
         password = Generator(data).gen()
-        data.update({'password': password})
+        data.update({'pwd': password})
 
         context['form'] = GeneratorForm(initial=data)
+        context['pwdform'] = PasswordForm()
 
         return context
 
@@ -40,6 +41,23 @@ class HomeView(TemplateView):
 
         context['form'] = form
         return self.render_to_response(context)
+
+
+class PasswordCreateView(CreateView):
+    model = Password
+    model_class = PasswordForm
+    fields = ('category', 'name', 'password')
+    success_url = reverse_lazy("pwdgen:category-list")
+
+    def dispatch(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            return super().dispatch(*args, **kwargs)
+
+        return HttpResponseForbidden()
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
 class CategoryListView(ListView):

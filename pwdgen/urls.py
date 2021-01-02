@@ -6,6 +6,7 @@ app_name = 'pwdgen'
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
+    path('password/save/', views.PasswordCreateView.as_view(), name='password-save'),
     path('categories/', views.CategoryListView.as_view(), name='category-list'),
     path('categories/create/', views.CategoryCreateView.as_view(), name='category-create'),
     path('categories/edit/<slug:slug>/', views.CategoryEditView.as_view(), name='category-edit'),

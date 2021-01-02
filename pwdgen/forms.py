@@ -6,7 +6,7 @@ from django import forms
 from PIL import Image
 
 from pwdgen.generator import Generator
-from pwdgen.models import Category
+from pwdgen.models import Category, Password
 from pwdgen.utils import pil_to_django, retrieve_image
 
 EXTENSIONS = [
@@ -18,7 +18,7 @@ EXTENSIONS = [
 
 
 class GeneratorForm(forms.Form):
-    password = forms.CharField(max_length=120, required=False)
+    pwd = forms.CharField(max_length=120, required=False, label='Password')
     length_range = forms.IntegerField(
         min_value=12,
         max_value=120,
@@ -53,7 +53,7 @@ class GeneratorForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Div('password', css_class='my-3'),
+            Div('pwd', css_class='my-3'),
             Div('length_range', css_class='my-3'),
             Div('length_number', css_class='my-3')
         )
@@ -73,9 +73,6 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ('name', 'url')
 
-    def clean(self):
-        return super().clean()
-
     def save(self, commit=True):
         instance = super().save(commit=False)
         name = self.cleaned_data['name']
@@ -93,3 +90,12 @@ class CategoryForm(forms.ModelForm):
             instance.name = name
             instance.save()
         return instance
+
+
+class PasswordForm(forms.ModelForm):
+    class Meta:
+        model = Password
+        fields = ('category', 'name', 'password')
+        widgets = {
+            'password': forms.TextInput(attrs={'type': 'hidden'})
+        }
