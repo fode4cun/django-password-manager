@@ -1,7 +1,6 @@
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_GET
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
@@ -46,6 +45,7 @@ class HomeView(TemplateView):
 class CategoryListView(ListView):
     model = Category
 
+
 class CategoryCreateUpdateMixin:
     model = Category
     form_class = CategoryForm
@@ -79,6 +79,7 @@ class CategoryDeleteView(TemplateView):
         category = get_object_or_404(Category, slug=slug, owner=request.user)
         category.delete()
         return redirect(reverse_lazy("pwdgen:category-list"))
+
 
 @require_GET
 def search_icon(request):

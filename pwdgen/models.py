@@ -4,7 +4,7 @@ from django.utils.text import slugify
 from django.utils.timezone import now as timezone_now
 from django.utils.translation import gettext_lazy as _
 
-from layout.models import CommonFieldsBase, CreationModificationDateBase
+from layout.models import CreationModificationDateBase
 
 
 def upload_to(instance, filename):
@@ -12,8 +12,9 @@ def upload_to(instance, filename):
     return f"category/{now:%Y/%m}/{filename}"
 
 
-class Category(CommonFieldsBase, CreationModificationDateBase):
+class Category(CreationModificationDateBase):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    name = models.CharField(_('Name'), max_length=64)
     slug = models.CharField(max_length=128)
     image = models.ImageField(upload_to=upload_to)
 
@@ -31,18 +32,25 @@ class Category(CommonFieldsBase, CreationModificationDateBase):
         self.image.storage.delete(self.image.name)
         return super().delete(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
 
-class Password(CommonFieldsBase, CreationModificationDateBase):
+
+class Password(CreationModificationDateBase):
     category = models.ForeignKey(
         'Category',
         verbose_name=_('Category'),
         on_delete=models.CASCADE,
         related_name='categories',
     )
+    name = models.CharField(_('Name'), max_length=64)
     password = models.CharField(_('Password'), max_length=255)
 
     class Meta:
+        get_latest_by = '-created'
         verbose_name = _('Password')
-        verbose_name_plural = ('Passwords')
+        verbose_name_plural = _('Passwords')
         ordering = ['-created']
 
+    def __str__(self):
+        return self.name

@@ -48,7 +48,7 @@ class CategoryFormViewTest(TestCase):
         email = 'test@gmail.com'
         password = 'top_secret'
 
-        user = User.objects.create_user(email=email, password=password)
+        User.objects.create_user(email=email, password=password)
         self.client.login(email=email, password=password)
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, 302)
@@ -64,4 +64,3 @@ class SearchIconViewTest(TestCase):
         self.assertEqual(response['content-type'], 'application/json')
         items = response.json()
         self.assertNotEqual(len(items['results']), 0)
-

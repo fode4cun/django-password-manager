@@ -3,7 +3,6 @@ from pathlib import PurePath
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Layout
 from django import forms
-from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
 from pwdgen.generator import Generator
@@ -49,7 +48,6 @@ class GeneratorForm(forms.Form):
     numbers = forms.CharField(
         required=False,
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
-
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

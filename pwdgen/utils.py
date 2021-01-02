@@ -37,4 +37,3 @@ def pil_to_django(image):
     fobject = BytesIO()
     image.save(fobject, format=image.format)
     return ContentFile(fobject.getvalue())
-

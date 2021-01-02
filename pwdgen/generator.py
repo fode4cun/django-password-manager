@@ -26,4 +26,3 @@ class Generator:
             password = ''.join(sample(password, len(password)))
 
         return password
-

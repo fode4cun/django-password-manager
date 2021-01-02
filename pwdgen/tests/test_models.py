@@ -19,4 +19,3 @@ class CategoryTest(TestCase):
         self.assertIsInstance(category, Category)
         self.assertEqual(category.slug, slugify(category.name))
         self.assertEqual(category.__str__(), category.name)
-
