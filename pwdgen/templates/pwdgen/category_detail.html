@@ -1,7 +1,5 @@
 {% extends 'layout/base.html' %}
 
-{% load debugger_tags %}
-
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-lg-12 col-md-12">
@@ -25,7 +23,7 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ pwd.name }}</td>
                                 <td>{{ pwd.created }}</td>
-                                <td class="d-none">{{ pwd.password }}</td>
+                                <td class="d-none"><code>{{ pwd.password }}</code></td>
                                 <td class="text-right">
                                     <i id="copy" class="material-icons mx-2 text-info" style="cursor:pointer" data-toggle="popover" data-content="Copied successfully">content_copy</i>
                                     <a href="" class="material-icons mx-2 text-info" style="cursor:pointer">clear</a>
@@ -50,7 +48,20 @@
 (function ($) {
     $('[data-toggle="popover"]').popover();
     $('#copy').on('click', function(event) {
-        <!-- document.execCommand("copy"); -->
+        let $el = $(this).parent('td').siblings('td.d-none').children('code')[0];
+        let tempCode = document.createElement("code");
+        let range = document.createRange();
+
+        tempCode.style = "position: absolute; left: -1000px; top: -1000px";
+        tempCode.textContent = $el.textContent;
+        document.body.appendChild(tempCode);
+
+        range.selectNode(tempCode);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand("copy");
+        window.getSelection().removeAllRanges();
+        document.body.removeChild(tempCode);
     });
 })(jQuery);
 </script>
