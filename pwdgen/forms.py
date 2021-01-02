@@ -58,7 +58,7 @@ class GeneratorForm(forms.Form):
             Div('length_number', css_class='my-3')
         )
 
-    def clean_password(self):
+    def clean_pwd(self):
         return Generator(self.data).gen()
 
 
