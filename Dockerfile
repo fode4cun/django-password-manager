@@ -5,9 +5,6 @@ FROM python:3.8
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Set the COLUMNS variable for the terminal's output width
-ENV COLUMNS 164
-
 # Set work directory
 WORKDIR /pwdproj
 
