@@ -44,6 +44,7 @@ class Password(CreationModificationDateBase):
         related_name='categories',
     )
     name = models.CharField(_('Name'), max_length=64)
+    slug = models.CharField(max_length=128)
     password = models.CharField(_('Password'), max_length=255)
 
     class Meta:
@@ -51,6 +52,11 @@ class Password(CreationModificationDateBase):
         verbose_name = _('Password')
         verbose_name_plural = _('Passwords')
         ordering = ['-created']
+        unique_together = [['category', 'name']]
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name, allow_unicode=True)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
