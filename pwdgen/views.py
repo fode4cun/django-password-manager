@@ -3,12 +3,13 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET
 from django.views.generic import ListView, TemplateView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
 from pwdgen.forms import CategoryForm, GeneratorForm, PasswordForm
 from pwdgen.generator import Generator
 from pwdgen.models import Category, Password
-from pwdgen.utils import get_icons
+from pwdgen.utils import decrypt_password, get_icons
 
 
 class HomeView(TemplateView):
@@ -45,15 +46,14 @@ class HomeView(TemplateView):
 
 class PasswordCreateView(CreateView):
     model = Password
-    model_class = PasswordForm
-    fields = ('category', 'name', 'password')
+    form_class = PasswordForm
     success_url = reverse_lazy("pwdgen:category-list")
 
     def dispatch(self, *args, **kwargs):
         if self.request.method == 'POST':
             return super().dispatch(*args, **kwargs)
 
-        return HttpResponseForbidden()
+        return HttpResponseForbidden('Forbidden 403')
 
     def form_valid(self, form):
         form.save()
@@ -81,6 +81,21 @@ class CategoryCreateUpdateMixin:
 
 class CategoryCreateView(CategoryCreateUpdateMixin, CreateView):
     pass
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = super().get_object()
+        pwd_qs = category.categories.all()
+
+        for pwd in pwd_qs:
+            pwd.password = decrypt_password(pwd.password)
+
+        context['pwd_qs'] = pwd_qs
+        return context
 
 
 class CategoryEditView(CategoryCreateUpdateMixin, UpdateView):

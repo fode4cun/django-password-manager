@@ -7,7 +7,7 @@ from PIL import Image
 
 from pwdgen.generator import Generator
 from pwdgen.models import Category, Password
-from pwdgen.utils import pil_to_django, retrieve_image
+from pwdgen.utils import encrypt_password, pil_to_django, retrieve_image
 
 EXTENSIONS = [
     ".jpg",
@@ -99,3 +99,18 @@ class PasswordForm(forms.ModelForm):
         widgets = {
             'password': forms.TextInput(attrs={'type': 'hidden'})
         }
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        category = self.cleaned_data['category']
+        name = self.cleaned_data['name']
+        password = self.cleaned_data['password']
+        crypted_pwd = encrypt_password(password)
+
+        if commit:
+            instance.category = category
+            instance.name = name
+            instance.password = crypted_pwd
+            instance.save()
+
+        return instance
