@@ -73,6 +73,13 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ('name', 'url')
 
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        category = Category.objects.filter(owner=self.request.user, name=name).exists()
+        if category:
+            raise forms.ValidationError(f'The name {name} already exists')
+        return name
+
     def save(self, commit=True):
         instance = super().save(commit=False)
         name = self.cleaned_data['name']
