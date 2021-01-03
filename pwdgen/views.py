@@ -59,6 +59,9 @@ class PasswordCreateView(CreateView):
         form.save()
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        return JsonResponse(form.errors, status=400)
+
 
 class PasswordDeleteView(TemplateView):
     template_name = 'pwdgen/confirm.html'

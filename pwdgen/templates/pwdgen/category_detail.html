@@ -25,7 +25,7 @@
                                 <td>{{ pwd.created }}</td>
                                 <td class="d-none"><code>{{ pwd.password }}</code></td>
                                 <td class="text-right">
-                                    <i id="copy" class="material-icons mx-2 text-info" style="cursor:pointer" data-toggle="popover" data-content="Copied successfully">content_copy</i>
+                                    <i class="material-icons mx-2 text-info copy" style="cursor:pointer" data-toggle="popover" data-content="Copied successfully">content_copy</i>
                                     <a href="{% url 'pwdgen:password-delete' category.slug pwd.slug %}" class="material-icons mx-2 text-info" style="cursor:pointer">clear</a>
                                 </td>
 
@@ -47,8 +47,8 @@
 <script charset="utf-8">
 (function ($) {
     $('[data-toggle="popover"]').popover();
-    $('#copy').on('click', function(event) {
-        let $el = $(this).parent('td').siblings('td.d-none').children('code')[0];
+    $('.copy').on('click', function(event) {
+        let $el = $(this).parent('td.text-right').siblings('td.d-none').children('code')[0];
         let tempCode = document.createElement("code");
         let range = document.createRange();
 

@@ -131,25 +131,70 @@
 
 {% block js %}
 <script charset="utf-8">
-    (function ($) {
-    $('form#gen').on('submit', function (event) {
-      var $form = $(this);
-      var $checkbox = $form.find('.checkboxinput:checkbox:checked');
+(function ($) {
+    // Displays errors for given $form and field
+    function add_errors($form, field, errors) {
+        var $field = $form.find('[name*=' + field + ']:first');
+        var $feedback = $('<p id="error_1_id_name" class="invalid-feedback d-block"></p>');
 
-      if ($checkbox.length === 0) {
-        event.preventDefault();
-      }
+        if (errors.length == 1) {
+            $feedback.text(errors[0]);
+        } else {
+            $feedback.text(errors.join(' '));
+        }
+
+        $feedback.insertAfter($field);
+    }
+
+    // Removes all errors for given $form
+    function clear_errors($form) {
+        $form.find('.invalid-feedback').remove();
+        $form.find('.is-invalid').removeClass('is-invalid');
+    }
+
+    $('form#gen').on('submit', function (event) {
+        var $form = $(this);
+        var $checkbox = $form.find('.checkboxinput:checkbox:checked');
+
+        if ($checkbox.length === 0) {
+            event.preventDefault();
+        }
     });
 
-    $('form#keep').on('submit', function (event) {
+    $('form#keep').on('submit', function (e) {
+        e.preventDefault();
         $('#id_password')[0].value = $('#id_pwd')[0].value;
+
+        var $form = $(this);
+        var data = $form.serialize();
+
+        clear_errors($form);
+
+        $.post($form.attr('action'), $form.serialize())
+            .then(function (data, status, xhr) {
+                if (xhr.status == 200) {
+                    return data;
+                } else {
+                    Promise.reject();
+                }
+            })
+            .then(function (data) {
+                window.location.replace("{% url 'pwdgen:category-list' %}");
+            })
+            .catch(function (xhr) {
+                var errors = xhr.responseJSON;
+
+                for (var field in errors) {
+                    add_errors($form, field, errors[field]);
+                }
+            });
     });
 
     var $password = $('#id_pwd');
     $password.on('click', function(event) {
-      $password.select();
-      document.execCommand("copy");
+        $password.select();
+        document.execCommand("copy");
     });
-  })(jQuery);
+})(jQuery);
 </script>
 {% endblock js %}

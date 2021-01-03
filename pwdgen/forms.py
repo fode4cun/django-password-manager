@@ -107,6 +107,14 @@ class PasswordForm(forms.ModelForm):
             'password': forms.TextInput(attrs={'type': 'hidden'})
         }
 
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        category = self.cleaned_data['category']
+        password = Password.objects.filter(category=category, name=name).exists()
+        if password:
+            raise forms.ValidationError(f'The name {name} already exists')
+        return name
+
     def save(self, commit=True):
         instance = super().save(commit=False)
         category = self.cleaned_data['category']
