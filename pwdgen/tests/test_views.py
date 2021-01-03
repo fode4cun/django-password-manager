@@ -55,6 +55,16 @@ class CategoryDeleteView(SetUpMixin, TestCase):
         self.assertEqual(response.status_code, 302)
 
 
+@tag('password-delete')
+class PasswordDeleteView(SetUpMixin, TestCase):
+    def test_post(self):
+        response = self.client.post(
+            reverse('pwdgen:password-delete', kwargs={'category_slug': self.category.slug, 'pwd_slug': self.password.slug})
+        )
+
+        self.assertEqual(response.status_code, 302)
+
+
 @tag('search-icon')
 class SearchIconViewTest(SetUpMixin, TestCase):
     def test_get(self):
