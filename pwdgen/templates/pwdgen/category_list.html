@@ -12,8 +12,11 @@
                         <img src="{{ obj.image.url }}" width=64 height=64>
                     </div>
                 </a>
-                <p class="card-category">Category</p>
+                <p class="card-category">Section</p>
                 <h3 class="card-title">{{ obj.name }}</h3>
+                {% with obj.categories.all|length as count %}
+                <p class="text-muted">{{ count }} item{{ count|pluralize }}</p>
+                {% endwith %}
             </div>
             <div class="card-footer">
                 <div class="stats justify-content-between w-100">
