@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -5,8 +7,6 @@ from django.views.decorators.http import require_GET
 from django.views.generic import ListView, TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
 
 from pwdgen.forms import CategoryForm, GeneratorForm, PasswordForm
 from pwdgen.generator import Generator
@@ -49,7 +49,6 @@ class HomeView(TemplateView):
 class PasswordCreateView(LoginRequiredMixin, CreateView):
     model = Password
     form_class = PasswordForm
-    success_url = reverse_lazy("pwdgen:category-list")
 
     def dispatch(self, *args, **kwargs):
         if self.request.method == 'POST':
@@ -72,7 +71,7 @@ class PasswordDeleteView(LoginRequiredMixin, TemplateView):
         category = get_object_or_404(Category, slug=category_slug, owner=request.user)
         password = get_object_or_404(Password, category=category, slug=pwd_slug)
         password.delete()
-        return redirect(reverse_lazy("pwdgen:category-detail", kwargs={'slug': category_slug}))
+        return redirect(reverse_lazy("pwdgen:category-detail", args=[category_slug]))
 
 
 class CategoryListView(LoginRequiredMixin, ListView):
@@ -82,7 +81,6 @@ class CategoryListView(LoginRequiredMixin, ListView):
 class CategoryCreateUpdateMixin:
     model = Category
     form_class = CategoryForm
-    success_url = reverse_lazy("pwdgen:category-list")
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)

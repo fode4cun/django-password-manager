@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls.base import reverse
 from django.utils.text import slugify
 from django.utils.timezone import now as timezone_now
 from django.utils.translation import gettext_lazy as _
@@ -32,6 +33,9 @@ class Category(CreationModificationDateBase):
         self.image.storage.delete(self.image.name)
         return super().delete(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('pwdgen:category-list')
+
     def __str__(self):
         return self.name
 
@@ -57,6 +61,9 @@ class Password(CreationModificationDateBase):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name, allow_unicode=True)
         return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('pwdgen:category-detail', args=[str(self.category.slug)])
 
     def __str__(self):
         return self.name
