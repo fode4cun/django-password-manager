@@ -10,7 +10,7 @@ TEST_MEDIA_PATH = str(settings.BASE_DIR.joinpath('test_media'))
 
 
 class HomeViewTest(TestCase):
-    url = reverse('pwdgen:home')
+    url = reverse('layout:home')
 
     def test_get(self):
         response = self.client.get(self.url)

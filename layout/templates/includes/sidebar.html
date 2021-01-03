@@ -1,7 +1,7 @@
 {% load static %}
 <div class="sidebar" data-color="purple" data-background-color="white" data-image="{% static 'assets/img/sidebar-1.jpg' %}">
     <div class="logo">
-        <a rel="noopener noreferrer" href="{% url 'pwdgen:home' %}" class="simple-text logo-normal">
+        <a rel="noopener noreferrer" href="{% url 'layout:home' %}" class="simple-text logo-normal">
             Future Password
         </a>
     </div>
@@ -10,7 +10,7 @@
         <ul class="nav">
             {% if user.is_authenticated %}
             <li class="nav-item {% if '/' == current_path %} active {% endif %}">
-                <a class="nav-link" href="{% url 'pwdgen:home' %}">
+                <a class="nav-link" href="{% url 'layout:home' %}">
                     <i class="material-icons">security</i>
                     <p>Generator</p>
                 </a>

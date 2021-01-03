@@ -8,42 +8,62 @@ from django.views.generic import ListView, TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
-from pwdgen.forms import CategoryForm, GeneratorForm, PasswordForm
-from pwdgen.generator import Generator
+from pwdgen.forms import CategoryForm, PasswordForm
 from pwdgen.models import Category, Password
 from pwdgen.utils import decrypt_password, get_icons
 
 
-class HomeView(TemplateView):
-    template_name = 'pwdgen/home.html'
+class CategoryCreateUpdateMixin(LoginRequiredMixin):
+    model = Category
+    form_class = CategoryForm
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.request = self.request
+        return form
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+
+class CategoryCreateView(CategoryCreateUpdateMixin, CreateView):
+    pass
+
+
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+
+
+class CategoryDetailView(LoginRequiredMixin, DetailView):
+    model = Category
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data = {
-            'length_range': '12',
-            'lowercase': ['on'],
-            'uppercase': ['on'],
-            'punctuation': ['on'],
-            'numbers': ['on'],
-        }
+        category = super().get_object()
+        pwd_qs = category.categories.all()
 
-        password = Generator(data).gen()
-        data.update({'pwd': password})
+        for pwd in pwd_qs:
+            pwd.password = decrypt_password(pwd.password)
 
-        context['form'] = GeneratorForm(initial=data)
-        context['pwdform'] = PasswordForm()
-
+        context['pwd_qs'] = pwd_qs
         return context
 
-    def post(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        form = GeneratorForm(request.POST)
 
-        if form.is_valid():
-            form = GeneratorForm(form.cleaned_data)
+class CategoryEditView(CategoryCreateUpdateMixin, UpdateView):
+    def get_initial(self):
+        initial = super().get_initial()
+        initial.update({'url': 'Image already exists'})
+        return initial
 
-        context['form'] = form
-        return self.render_to_response(context)
+
+class CategoryDeleteView(LoginRequiredMixin, TemplateView):
+    template_name = 'pwdgen/confirm.html'
+
+    def post(self, request, slug):
+        category = get_object_or_404(Category, slug=slug, owner=request.user)
+        category.delete()
+        return redirect(reverse_lazy("pwdgen:category-list"))
 
 
 class PasswordCreateView(LoginRequiredMixin, CreateView):
@@ -72,59 +92,6 @@ class PasswordDeleteView(LoginRequiredMixin, TemplateView):
         password = get_object_or_404(Password, category=category, slug=pwd_slug)
         password.delete()
         return redirect(reverse_lazy("pwdgen:category-detail", args=[category_slug]))
-
-
-class CategoryListView(LoginRequiredMixin, ListView):
-    model = Category
-
-
-class CategoryCreateUpdateMixin:
-    model = Category
-    form_class = CategoryForm
-
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        form.request = self.request
-        return form
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
-
-class CategoryCreateView(LoginRequiredMixin, CategoryCreateUpdateMixin, CreateView):
-    pass
-
-
-class CategoryDetailView(LoginRequiredMixin, DetailView):
-    model = Category
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        category = super().get_object()
-        pwd_qs = category.categories.all()
-
-        for pwd in pwd_qs:
-            pwd.password = decrypt_password(pwd.password)
-
-        context['pwd_qs'] = pwd_qs
-        return context
-
-
-class CategoryEditView(LoginRequiredMixin, CategoryCreateUpdateMixin, UpdateView):
-    def get_initial(self):
-        initial = super().get_initial()
-        initial.update({'url': 'Image already exists'})
-        return initial
-
-
-class CategoryDeleteView(LoginRequiredMixin, TemplateView):
-    template_name = 'pwdgen/confirm.html'
-
-    def post(self, request, slug):
-        category = get_object_or_404(Category, slug=slug, owner=request.user)
-        category.delete()
-        return redirect(reverse_lazy("pwdgen:category-list"))
 
 
 @login_required
