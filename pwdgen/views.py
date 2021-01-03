@@ -5,6 +5,8 @@ from django.views.decorators.http import require_GET
 from django.views.generic import ListView, TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from pwdgen.forms import CategoryForm, GeneratorForm, PasswordForm
 from pwdgen.generator import Generator
@@ -44,7 +46,7 @@ class HomeView(TemplateView):
         return self.render_to_response(context)
 
 
-class PasswordCreateView(CreateView):
+class PasswordCreateView(LoginRequiredMixin, CreateView):
     model = Password
     form_class = PasswordForm
     success_url = reverse_lazy("pwdgen:category-list")
@@ -63,17 +65,17 @@ class PasswordCreateView(CreateView):
         return JsonResponse(form.errors, status=400)
 
 
-class PasswordDeleteView(TemplateView):
+class PasswordDeleteView(LoginRequiredMixin, TemplateView):
     template_name = 'pwdgen/confirm.html'
 
     def post(self, request, category_slug, pwd_slug):
         category = get_object_or_404(Category, slug=category_slug, owner=request.user)
         password = get_object_or_404(Password, category=category, slug=pwd_slug)
         password.delete()
-        return redirect(reverse_lazy("pwdgen:category-list"))
+        return redirect(reverse_lazy("pwdgen:category-detail", kwargs={'slug': category_slug}))
 
 
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
 
 
@@ -92,11 +94,11 @@ class CategoryCreateUpdateMixin:
         return super().form_valid(form)
 
 
-class CategoryCreateView(CategoryCreateUpdateMixin, CreateView):
+class CategoryCreateView(LoginRequiredMixin, CategoryCreateUpdateMixin, CreateView):
     pass
 
 
-class CategoryDetailView(DetailView):
+class CategoryDetailView(LoginRequiredMixin, DetailView):
     model = Category
 
     def get_context_data(self, **kwargs):
@@ -111,14 +113,14 @@ class CategoryDetailView(DetailView):
         return context
 
 
-class CategoryEditView(CategoryCreateUpdateMixin, UpdateView):
+class CategoryEditView(LoginRequiredMixin, CategoryCreateUpdateMixin, UpdateView):
     def get_initial(self):
         initial = super().get_initial()
         initial.update({'url': 'Image already exists'})
         return initial
 
 
-class CategoryDeleteView(TemplateView):
+class CategoryDeleteView(LoginRequiredMixin, TemplateView):
     template_name = 'pwdgen/confirm.html'
 
     def post(self, request, slug):
@@ -127,6 +129,7 @@ class CategoryDeleteView(TemplateView):
         return redirect(reverse_lazy("pwdgen:category-list"))
 
 
+@login_required
 @require_GET
 def search_icon(request):
     param = request.GET.get('word')
