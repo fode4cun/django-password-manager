@@ -1,66 +1,67 @@
-from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.test import TestCase, override_settings
+from django.test import TestCase, override_settings, tag
 from django.urls import reverse
 
-from pwdgen.forms import GeneratorForm
-
-User = get_user_model()
-TEST_MEDIA_PATH = str(settings.BASE_DIR.joinpath('test_media'))
+from pwdgen.forms import CategoryForm
+from pwdgen.tests.mixins import TEST_MEDIA_PATH, SetUpMixin
 
 
-class HomeViewTest(TestCase):
-    url = reverse('layout:home')
+@tag('category-detail')
+class CategoryDetailViewTest(SetUpMixin, TestCase):
+    def test_logged_in_get(self):
+        response = self.client.get(
+            reverse('pwdgen:category-detail', args=[self.category.slug])
+        )
 
-    def test_get(self):
-        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.context['form'], GeneratorForm)
+        self.assertNotEqual(len(response.context['pwd_qs']), 0)
 
-    def test_post(self):
-        data = {
-            'length_range': '15',
-            'length_number': '15',
-            'lowercase': ['on'],
-            'uppercase': ['on'],
-            'numbers': ['on'],
-        }
+    def test_logged_out_get(self):
+        self.client.logout()
+        response = self.client.get(
+            reverse('pwdgen:category-detail', args=[self.category.slug])
+        )
 
-        response = self.client.post(self.url, data)
-        password = response.context['form']['pwd'].value()
-        length = int(data['length_range'])
-
-        self.assertRegex(password, r'(?=.*[a-z])')
-        self.assertRegex(password, r'(?=.*[A-Z])')
-        self.assertRegex(password, r'(?=.*[0-9])')
-        self.assertEqual(len(password), length)
-
-
-class CategoryFormViewTest(TestCase):
-    url = reverse('pwdgen:category-create')
-
-    @override_settings(MEDIA_ROOT=TEST_MEDIA_PATH)
-    def test_post(self):
-        data = {
-            'name': 'Python',
-            'url': 'https://image.flaticon.com/icons/png/128/3098/3098090.png',
-        }
-        email = 'test@gmail.com'
-        password = 'top_secret'
-
-        User.objects.create_user(email=email, password=password)
-        self.client.login(email=email, password=password)
-        response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, 302)
 
 
-class SearchIconViewTest(TestCase):
-    url = reverse('pwdgen:search-icon')
+@tag('category-edit')
+class CategoryEditViewTest(SetUpMixin, TestCase):
+    def test_get(self):
+        response = self.client.get(
+            reverse('pwdgen:category-edit', args=[self.category.slug])
+        )
+        category_form = response.context['form']
 
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(category_form, CategoryForm)
+        self.assertEqual(category_form['url'].initial, 'Image already exists')
+
+
+@tag('category-delete')
+class CategoryDeleteView(SetUpMixin, TestCase):
+    def test_get(self):
+        response = self.client.get(
+            reverse('pwdgen:category-delete', args=[self.category.slug])
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+    @override_settings(MEDIA_ROOT=TEST_MEDIA_PATH)
+    def test_post(self):
+        response = self.client.post(
+            reverse('pwdgen:category-delete', args=[self.category.slug])
+        )
+
+        self.assertEqual(response.status_code, 302)
+
+
+@tag('search-icon')
+class SearchIconViewTest(SetUpMixin, TestCase):
     def test_get(self):
         parameter = {'word': 'python'}
-        response = self.client.get(self.url, parameter)
+        response = self.client.get(reverse('pwdgen:search-icon'), parameter)
+        items = response.json()
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['content-type'], 'application/json')
-        items = response.json()
         self.assertNotEqual(len(items['results']), 0)
