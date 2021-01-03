@@ -1,4 +1,5 @@
 from shutil import rmtree
+from pathlib import Path
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -30,4 +31,6 @@ class SetUpMixin:
             category=self.category, name='Gmail', password=self.crypted_pwd)
 
     def tearDown(self):
-        rmtree(TEST_MEDIA_PATH)
+        tmp_icons = Path(TEST_MEDIA_PATH).joinpath('category')
+        if tmp_icons.exists():
+            rmtree(tmp_icons)
