@@ -5,6 +5,7 @@ from pwdgen.tests.mixins import TEST_MEDIA_PATH, SetUpMixin
 from pwdgen.utils import decrypt_password
 
 
+@tag('category-form')
 class CategoryFormTest(SetUpMixin, TestCase):
     url = reverse('pwdgen:category-create')
 
@@ -30,7 +31,7 @@ class CategoryFormTest(SetUpMixin, TestCase):
         self.assertFormError(response, 'form', 'name', f'The name {data["name"]} already exists')
 
 
-@tag('pwdform')
+@tag('password-form')
 class PasswordFormTest(SetUpMixin, TestCase):
     url = reverse('pwdgen:password-save')
 
@@ -58,3 +59,8 @@ class PasswordFormTest(SetUpMixin, TestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(error, [f'The name {data["name"]} already exists'])
+
+    def test_get(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 403)
