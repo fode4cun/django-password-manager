@@ -1,11 +1,12 @@
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.utils.text import slugify
 
 from pwdgen.models import Category, Password
 from pwdgen.tests.mixins import SetUpMixin
 
 
-class CategoryTest(SetUpMixin, TestCase):
+@tag('models')
+class ModelsTest(SetUpMixin, TestCase):
     def test_category_creation(self):
         category = self.category
 
