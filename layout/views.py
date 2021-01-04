@@ -1,20 +1,44 @@
+from django.core.exceptions import PermissionDenied, SuspiciousOperation
+from django.http import Http404, HttpResponseServerError
 from django.shortcuts import render
+from django.template import loader
 from django.views.generic import TemplateView
 
 from pwdgen.forms import GeneratorForm, PasswordForm
 from pwdgen.generator import Generator
 
 
-def forbidden_403(request, exception):
+def response_error_400(request, exception=None):
+    return render(request, 'layout/page-400.html', status=400)
+
+
+def bad_request(request):
+    raise SuspiciousOperation
+
+
+def response_error_403(request, exception=None):
     return render(request, 'layout/page-403.html', status=403)
 
 
-def page_not_found_404(request, exception):
+def permission_denied(request):
+    raise PermissionDenied
+
+
+def response_error_404(request, exception=None):
     return render(request, 'layout/page-404.html', status=404)
 
 
-def server_error_500(request):
+def page_not_found(request):
+    raise Http404
+
+
+def response_error_500(request):
     return render(request, 'layout/page-500.html', status=500)
+
+
+def server_error(request):
+    template = loader.get_template('layout/page-500.html')
+    return HttpResponseServerError(template.render())
 
 
 class HomeView(TemplateView):
