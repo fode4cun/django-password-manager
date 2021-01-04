@@ -11,6 +11,7 @@ django-crispy-forms = "*"
 requests = "*"
 pillow = "*"
 cryptography = "*"
+django-allauth = "*"
 
 [dev-packages]
 django-extensions = "*"
