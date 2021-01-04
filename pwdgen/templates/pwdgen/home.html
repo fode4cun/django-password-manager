@@ -111,12 +111,35 @@
               {% if user.is_authenticated %}
               <div class="tab-pane" id="category">
                   <form id='keep' action="{% url 'pwdgen:password-save' %}" method="post" accept-charset="utf-8">
-                      <div>
-                          {% crispy pwdform %}
+
+                      {% csrf_token %}
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="bmd-label-floating">Select Category</label>
+                                      {% crispy_field pwdform.category %}
+                                  </div>
+                              </div>
+                          </div>
+
+                          <br />
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="bmd-label-floating">Name</label>
+                                      {% crispy_field pwdform.name %}
+                                  </div>
+                              </div>
+                          </div>
+                          {% crispy_field pwdform.password %}
+
+                          <br />
+
                           <div class="row">
                               <input type="submit" class="btn btn-info btn-lg btn-block mx-4" value="Save" />
                           </div>
-                      </div>
                   </form>
               </div>
               {% endif %}

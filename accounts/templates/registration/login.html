@@ -5,53 +5,53 @@
 
 {% block content %}
 
-  <div class="row">
+<div class="row">
     <div class="col-md-5">
-      <div class="card">
-        <div class="card-header card-header-info">
-          <h4 class="card-title">Login</h4>
-        </div>
-        <div class="card-body">
-
-          <form role="form" method="post">
-
-            {% csrf_token %}
-
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label class="bmd-label-floating">Username</label>
-                  {% crispy_field form.username %}
-                </div>
-              </div>
+        <div class="card">
+            <div class="card-header card-header-info">
+                <h4 class="card-title">Login</h4>
             </div>
+            <div class="card-body">
 
-            <br />
+                <form role="form" method="post">
 
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label class="bmd-label-floating">Password</label>
-                  {% crispy_field form.password %}
-                </div>
-              </div>
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Email</label>
+                                {% crispy_field form.username %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Password</label>
+                                {% crispy_field form.password %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <button type="submit" name="login" class="btn btn-info pull-left">Login</button>
+
+                    &nbsp; &nbsp;
+                    <span class="pull-right">
+                        Don't have an account? <a href="{% url 'accounts:signup' %}" class="text-primary">Create</a>
+                    </span>
+
+                    <div class="clearfix"></div>
+
+                </form>
             </div>
-
-            <br />
-
-            <button type="submit" name="login" class="btn btn-info pull-left">Login</button>
-
-            &nbsp; &nbsp;
-            <span class="pull-right">
-              Don't have an account? <a href="{% url 'accounts:signup' %}" class="text-primary">Create</a>
-            </span>
-
-            <div class="clearfix"></div>
-
-          </form>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
 {% endblock content %}
