@@ -20,8 +20,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="bmd-label-floating">Email</label>
-                                {% crispy_field form.username %}
+                                {% crispy_field form.login %}
                             </div>
                         </div>
                     </div>
@@ -31,7 +30,6 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="bmd-label-floating">Password</label>
                                 {% crispy_field form.password %}
                             </div>
                         </div>
@@ -43,7 +41,7 @@
 
                     &nbsp; &nbsp;
                     <span class="pull-right">
-                        Don't have an account? <a href="{% url 'accounts:signup' %}" class="text-primary">Create</a>
+                        Don't have an account? <a href="{% url 'account_signup' %}" class="text-primary">Create</a>
                     </span>
 
                     <div class="clearfix"></div>

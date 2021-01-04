@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, tag
 
 
+@tag('user')
 class UsersManagersTests(TestCase):
 
     def test_create_user(self):
