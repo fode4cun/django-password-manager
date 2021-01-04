@@ -74,7 +74,7 @@ class PasswordCreateView(LoginRequiredMixin, CreateView):
         if self.request.method == 'POST':
             return super().dispatch(*args, **kwargs)
 
-        return HttpResponseForbidden('Forbidden 403')
+        return HttpResponseForbidden('Forbidden 403', staus_code=403)
 
     def form_valid(self, form):
         form.save()

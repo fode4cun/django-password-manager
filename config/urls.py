@@ -10,6 +10,10 @@ urlpatterns = [
     path('', include('pwdgen.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+handler403 = 'layout.views.forbidden_403'
+handler404 = 'layout.views.page_not_found_404'
+handler500 = 'layout.views.server_error_500'
+
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
