@@ -6,12 +6,14 @@ name = "pypi"
 [packages]
 django = "==3.1.4"
 environs = "*"
-psycopg2-binary = "*"
 django-crispy-forms = "*"
 requests = "*"
 pillow = "*"
 cryptography = "*"
 django-allauth = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+whitenoise = "*"
 
 [dev-packages]
 django-extensions = "*"

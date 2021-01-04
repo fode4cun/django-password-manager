@@ -1,6 +1,6 @@
 from ._base import *
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ['futurepassword1.herokuapp.com']
 
 DATABASES = {
     "default": env.dj_db_url("DATABASE_URL")
