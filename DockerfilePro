@@ -21,7 +21,9 @@ RUN pip install --upgrade pip \
     && pipenv install --system
 
 # collect static files
-RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput \
+    && python manage.py makemigrations \
+    && python manage.py migrate
 
 # add and run as non-root user
 RUN useradd -ms /bin/bash newuser
@@ -30,4 +32,4 @@ USER newuser
 EXPOSE $PORT
 
 # run gunicorn
-CMD gunicorn hello_django.wsgi:application --bind 0.0.0.0:$PORT
+CMD gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
