@@ -12,7 +12,7 @@ class CategoryAdmin(admin.ModelAdmin):
         'created',
         'modified',
         'owner',
-        'image',
+        'url',
     )
     list_filter = ('created', 'modified', 'owner')
     search_fields = ('name', 'slug')

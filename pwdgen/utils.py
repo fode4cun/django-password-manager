@@ -1,9 +1,6 @@
 import re
-from io import BytesIO
-
 import requests
 from cryptography.fernet import Fernet
-from django.core.files.base import ContentFile
 from environs import Env
 
 env = Env()
@@ -33,17 +30,6 @@ def get_icons(param: str) -> list:
                 images.append(url)
 
     return images
-
-
-def retrieve_image(url):
-    response = requests.get(url)
-    return BytesIO(response.content)
-
-
-def pil_to_django(image):
-    fobject = BytesIO()
-    image.save(fobject, format=image.format)
-    return ContentFile(fobject.getvalue())
 
 
 def encrypt_password(password):
