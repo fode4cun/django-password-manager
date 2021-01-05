@@ -2,6 +2,10 @@ from ._base import *
 
 ALLOWED_HOSTS = ['futurepassword1.herokuapp.com']
 
+MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+] + MIDDLEWARE
+
 DATABASES = {
     "default": env.dj_db_url("DATABASE_URL")
 }
