@@ -8,6 +8,9 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE config.settings.pro
+ENV DJANGO_SECRET_KEY ''
+ENV DATABASE_URL ''
+ENV CRYPT_KEY ''
 
 # Copy Django project files
 COPY . .
@@ -23,6 +26,8 @@ RUN python manage.py collectstatic --noinput
 # add and run as non-root user
 RUN useradd -ms /bin/bash newuser
 USER newuser
+
+EXPOSE $PORT
 
 # run gunicorn
 CMD gunicorn hello_django.wsgi:application --bind 0.0.0.0:$PORT

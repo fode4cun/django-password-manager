@@ -21,6 +21,7 @@ db.sqlite3
 
 # Secrets
 secrets.json
+DockerfilePro
 .env
 *.sh
 
@@ -62,3 +63,4 @@ Thumbs.db
 *.wmv
 /media
 /test_media
+/tmp

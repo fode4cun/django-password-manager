@@ -11,6 +11,9 @@ db.sqlite3
 /pg_data
 
 secrets.json
+DockerfilePro
+Dockerfile
+docker-compose.yml
 .env
 *.sh
 
@@ -26,6 +29,8 @@ dist/
 TEST*.xml
 .coverage*
 htmlcov
+pyrightconfig.json
+README.md
 
 .DS_Store
 
@@ -43,3 +48,4 @@ Thumbs.db
 *.wmv
 /media
 /test_media
+/tmp
