@@ -34,9 +34,17 @@ class CategoryCreateView(CategoryCreateUpdateMixin, CreateView):
 class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
 
+    def get_queryset(self):
+        qs = Category.objects.filter(owner=self.request.user)
+        return qs
+
 
 class CategoryDetailView(LoginRequiredMixin, DetailView):
     model = Category
+
+    def get_object(self):
+        obj = Category.objects.get(owner=self.request.user, slug=self.kwargs[self.slug_url_kwarg])
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -51,6 +59,10 @@ class CategoryDetailView(LoginRequiredMixin, DetailView):
 
 
 class CategoryEditView(CategoryCreateUpdateMixin, UpdateView):
+    def get_object(self):
+        obj = Category.objects.get(owner=self.request.user, slug=self.kwargs[self.slug_url_kwarg])
+        return obj
+
     def get_initial(self):
         initial = super().get_initial()
         initial.update({'url': 'Image already exists'})
@@ -75,6 +87,11 @@ class PasswordCreateView(LoginRequiredMixin, CreateView):
             return super().dispatch(*args, **kwargs)
 
         return HttpResponseForbidden('Forbidden 403')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['owner'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         form.save()

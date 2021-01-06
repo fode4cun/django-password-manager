@@ -93,6 +93,11 @@ class PasswordForm(forms.ModelForm):
             'password': forms.TextInput(attrs={'type': 'hidden'})
         }
 
+    def __init__(self, *args, **kwargs):
+        owner = kwargs.pop('owner')
+        super().__init__(*args, **kwargs)
+        self.fields['category'].queryset = Category.objects.filter(owner=owner)
+
     def clean_name(self):
         name = self.cleaned_data['name']
         category = self.cleaned_data['category']

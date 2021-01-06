@@ -58,7 +58,7 @@ class HomeView(TemplateView):
         data.update({'pwd': password})
 
         context['form'] = GeneratorForm(initial=data)
-        context['pwdform'] = PasswordForm()
+        context['pwdform'] = PasswordForm(owner=self.request.user)
 
         return context
 
