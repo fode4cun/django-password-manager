@@ -37,7 +37,25 @@
 
                     <br />
 
-                    <button type="submit" name="login" class="btn btn-info pull-left">Login</button>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div>Remember me</div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        {% crispy_field form.remember 'class' 'form-check-input checkboxinput' %}
+                                        <span class="form-check-sign">
+                                            <span class="check"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <button type="submit" class="btn btn-info pull-left">Sign In</button>
 
                     &nbsp; &nbsp;
                     <span class="pull-right">
