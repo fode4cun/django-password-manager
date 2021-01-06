@@ -96,7 +96,8 @@ class PasswordForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         owner = kwargs.pop('owner')
         super().__init__(*args, **kwargs)
-        self.fields['category'].queryset = Category.objects.filter(owner=owner)
+        if owner.is_authenticated:
+            self.fields['category'].queryset = Category.objects.filter(owner=owner)
 
     def clean_name(self):
         name = self.cleaned_data['name']

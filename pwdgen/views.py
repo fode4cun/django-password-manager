@@ -48,7 +48,7 @@ class CategoryDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        category = super().get_object()
+        category = self.get_object()
         pwd_qs = category.categories.all()
 
         for pwd in pwd_qs:
