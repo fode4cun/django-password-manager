@@ -1,4 +1,4 @@
-from ._base import *
+from .base import *
 
 ALLOWED_HOSTS = ['.herokuapp.com']
 
@@ -16,10 +16,6 @@ MIDDLEWARE = [
 DATABASES = {
     "default": env.dj_db_url("DATABASE_URL")
 }
-
-CACHE_MIDDLEWARE_ALIAS = 'default'
-CACHE_MIDDLEWARE_SECONDS = 604800
-CACHE_MIDDLEWARE_KEY_PREFIX = ''
 
 SECURE_SSL_REDIRECT = True
 SECURE_HSTS_SECONDS = 2592000

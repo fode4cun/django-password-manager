@@ -6,11 +6,12 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Set work directory
-WORKDIR /pwdproj
+WORKDIR /futurepassword
 
 # Copy Django project files
-COPY . /pwdproj
+COPY . /futurepassword
 
 # Install dependencies
-RUN pip install --upgrade pip
-RUN pip install pipenv && pipenv install --dev --system
+RUN pip install --upgrade pip \
+    && pip install pipenv \
+    && pipenv install --dev --system

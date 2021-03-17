@@ -1,6 +1,6 @@
 import socket
 
-from ._base import *
+from .base import *
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())

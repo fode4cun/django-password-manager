@@ -1,32 +1,25 @@
-version: '3.3'
+version: '3.7'
 
 services:
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: "${DATABASE_NAME}"
-      POSTGRES_USER: "${DATABASE_USER}"
-      POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
-      PGDATA: "/var/lib/postgresql/data"
-    ports:
-      - 5432:5432
-    volumes:
-      - ./pg_data:/var/lib/postgresql/data
-    restart: always
+    postgres:
+        image: postgres:latest
+        container_name: postgres
+        env_file:
+            - ./.env.dev.db
+        ports:
+            - 5432:5432
+        volumes:
+            - ./pg_data:/var/lib/postgresql/data
+        restart: always
 
-  web:
-    build:
-      context: .
-    tty: true
-    command: python manage.py runserver 0.0.0.0:8000
-    environment:
-      DJANGO_SETTINGS_MODULE: "${DJANGO_SETTINGS_MODULE}"
-      DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY}"
-      DATABASE_HOST: "${DATABASE_HOST}"
-    ports:
-      - 8000:8000
-    volumes:
-      - ./:/pwdproj
-    depends_on:
-      - postgres
-    restart: always
+    web:
+        container_name: futurepassword
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: python manage.py runserver 0.0.0.0:8000
+        env_file:
+            - ./.env.dev
+        depends_on:
+            - postgres
+        restart: always

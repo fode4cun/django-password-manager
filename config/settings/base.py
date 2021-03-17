@@ -31,12 +31,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+
     # External packages
     'crispy_forms',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+
     # Internal apps
     'layout.apps.LayoutConfig',
     'pwdgen.apps.PwdgenConfig',
