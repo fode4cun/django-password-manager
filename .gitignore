@@ -64,3 +64,9 @@ Thumbs.db
 /media
 /test_media
 /tmp
+
+# Config
+.vim/
+pyrightconfig.json
+.flake8
+.isort.cfg
