@@ -22,7 +22,7 @@ db.sqlite3
 # Secrets
 secrets.json
 DockerfilePro
-.env
+.env*
 *.sh
 
 # Log files

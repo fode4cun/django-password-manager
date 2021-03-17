@@ -14,7 +14,7 @@ secrets.json
 DockerfilePro
 Dockerfile
 docker-compose.yml
-.env
+.env*
 *.sh
 
 *.log
@@ -49,3 +49,8 @@ Thumbs.db
 /media
 /test_media
 /tmp
+
+.vim/
+pyrightconfig.json
+.flake8
+.isort.cfg
