@@ -30,13 +30,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
 
     # External packages
     'crispy_forms',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
 
     # Internal apps
     'layout.apps.LayoutConfig',
@@ -129,18 +125,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
-
-SITE_ID = 1
-
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_LOGOUT_ON_GET = True
 
 LOGIN_REDIRECT_URL = 'layout:home'
 LOGOUT_REDIRECT_URL = 'layout:home'

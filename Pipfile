@@ -9,11 +9,10 @@ environs = "*"
 django-crispy-forms = "*"
 requests = "*"
 cryptography = "*"
-django-allauth = "*"
 gunicorn = "*"
-psycopg2-binary = "*"
 whitenoise = "*"
 dj-database-url = "*"
+psycopg2 = "*"
 
 [dev-packages]
 django-extensions = "*"
