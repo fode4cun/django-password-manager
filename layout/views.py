@@ -91,3 +91,7 @@ class HomeView(TemplateView):
 
         context['form'] = form
         return self.render_to_response(context)
+
+
+class AccountManage(TemplateView):
+    template_name = 'layout/account.html'

@@ -23,6 +23,13 @@
                 </a>
             </li>
 
+            <li class="nav-item {% if 'profile' in current_path or 'accounts' in current_path %} active {% endif %}">
+                <a class="nav-link" href="{% url 'layout:profile' %}">
+                    <i class="material-icons">manage_accounts</i>
+                    <p>Profile</p>
+                </a>
+            </li>
+
             <li class="nav-item ">
                 <a class="nav-link" href="{% url 'logout' %}">
                     <i class="material-icons">power_settings_new</i>

@@ -11,4 +11,5 @@ urlpatterns = [
     path('404/', views.page_not_found),
     path('500/', views.server_error),
     path('accounts/signup/', views.register, name='signup'),
+    path('profile/', views.AccountManage.as_view(), name='profile'),
 ]
