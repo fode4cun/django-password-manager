@@ -10,4 +10,5 @@ urlpatterns = [
     path('403/', views.permission_denied),
     path('404/', views.page_not_found),
     path('500/', views.server_error),
+    path('accounts/signup/', views.register, name='signup'),
 ]

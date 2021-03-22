@@ -1,9 +1,12 @@
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.http import Http404, HttpResponseServerError
 from django.shortcuts import render
 from django.template import loader
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import TemplateView
 
+from layout.forms import UserRegistrationForm
 from pwdgen.forms import GeneratorForm, PasswordForm
 from pwdgen.generator import Generator
 
@@ -39,6 +42,23 @@ def response_error_500(request):
 def server_error(request):
     template = loader.get_template('layout/page-500.html')
     return HttpResponseServerError(template.render())
+
+
+@sensitive_post_parameters()
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password1'])
+            new_user.save()
+            messages.success(request, 'The account has created successfully')
+        else:
+            messages.error(request, 'Error creating your account')
+    else:
+        user_form = UserRegistrationForm()
+
+    return render(request, 'registration/signup.html', {'user_form': user_form})
 
 
 class HomeView(TemplateView):

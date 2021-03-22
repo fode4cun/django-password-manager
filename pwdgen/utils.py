@@ -1,4 +1,5 @@
 import re
+
 import requests
 from cryptography.fernet import Fernet
 from environs import Env
