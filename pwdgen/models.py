@@ -32,7 +32,7 @@ class Category(CreationModificationDateBase):
 
 class Password(CreationModificationDateBase):
     category = models.ForeignKey(
-        'Category',
+        Category,
         verbose_name=_('Category'),
         on_delete=models.CASCADE,
         related_name='categories',
