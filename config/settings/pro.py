@@ -1,6 +1,6 @@
 from .base import *
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ['futurepassword.herokuapp.com']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
