@@ -5039,17 +5039,17 @@ tbody.collapse.show {
   color: #5c5415;
 }
 
-.alert-danger {
+.alert-error {
   color: #7f231c;
   background-color: #fdd9d7;
   border-color: #fccac7;
 }
 
-.alert-danger hr {
+.alert-error hr {
   border-top-color: #fbb3af;
 }
 
-.alert-danger .alert-link {
+.alert-error .alert-link {
   color: #551713;
 }
 
@@ -13442,13 +13442,13 @@ fieldset[disabled] .form-group .form-control {
   color: #ffffff;
 }
 
-.alert.alert-danger {
+.alert.alert-error {
   background-color: #f55145;
   color: #ffffff;
 }
 
-.alert.alert-danger a,
-.alert.alert-danger .alert-link {
+.alert.alert-error a,
+.alert.alert-error .alert-link {
   color: #ffffff;
 }
 
@@ -13463,7 +13463,7 @@ fieldset[disabled] .form-group .form-control {
 }
 
 .alert-info,
-.alert-danger,
+.alert-error,
 .alert-warning,
 .alert-success,
 .alert-rose {
@@ -13480,11 +13480,11 @@ fieldset[disabled] .form-group .form-control {
   max-width: 89%;
 }
 
-.alert.alert-danger {
+.alert.alert-error {
   box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(244, 67, 54, 0.4);
 }
 
-.alert.alert-danger i {
+.alert.alert-error i {
   color: #f44336;
 }
 
