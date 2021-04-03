@@ -2,7 +2,7 @@
 
 The app allows us to generate different length passwords with additional params
 (lower case, upper case,  punctuation, numbers).
-We provide an authentication system for creating different categories and
+Provide an authentication system for creating different categories and
 definition passwords by categories.
 
 ## Demo
